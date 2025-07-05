@@ -58,6 +58,6 @@ streamlit run app.py
 * File PNG yang bisa diunduh oleh pengguna
 
 # Contoh Tampilan Aplikasi
-
+https://github.com/Jo2205/tije-recomendation/blob/main/output/rekomendasi_1.png?raw=true
 
 Proyek ini saya kembangkan sebagai bagian dari portofolio data science dan dapat dijadikan referensi dalam pengembangan sistem berbasis data untuk transportasi publik.
