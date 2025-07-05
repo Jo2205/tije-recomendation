@@ -10,7 +10,7 @@ import base64
 # Judul aplikasi
 st.title("Sistem Rekomendasi Trayek Transjakarta")
 
-# Langkah 1: Load data
+# Load data
 @st.cache_data
 def load_data():
     df = pd.read_csv("data/penumpang_2021.csv")
@@ -27,7 +27,7 @@ trayek_dict = (
     .to_dict()
 )
 
-# Langkah 2: Buat pivot table (trayek sebagai baris, bulan sebagai kolom)
+# Buat pivot table (trayek sebagai baris, bulan sebagai kolom)
 pivot_penumpang = data.pivot_table(
     index="kode_trayek",
     columns="bulan",
@@ -41,13 +41,13 @@ st.dataframe(data.head())
 st.subheader("Pivot Jumlah Penumpang per Bulan")
 st.dataframe(pivot_penumpang.head())
 
-# Langkah 3: Normalisasi data
+# Normalisasi data
 pivot_normalized = normalisasi_data(pivot_penumpang)
 
-# Langkah 4: Hitung similarity
+# Hitung similarity
 similarity_df = hitung_similarity(pivot_normalized)
 
-# Langkah 5: Dropdown untuk pilih trayek dengan label lengkap
+# Dropdown untuk pilih trayek dengan label lengkap
 st.subheader("Pilih Trayek untuk Rekomendasi")
 kode_options = sorted(pivot_penumpang.index)
 trayek_labels = [f"{kode} - {trayek_dict.get(kode, '')}" for kode in kode_options]
