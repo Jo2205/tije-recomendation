@@ -104,3 +104,36 @@ with open(filename, 'rb') as f:
     href = f'<a href="data:file/png;base64,{b64}" download="rekomendasi_{selected_trayek}.png">📥 Download Grafik sebagai PNG</a>'
     st.markdown(href, unsafe_allow_html=True)
 
+# Tambahan: Metode Elbow + K-Means
+st.subheader("Analisis Jumlah Klaster dengan Metode Elbow")
+
+# Hitung SSE untuk berbagai nilai k
+from sklearn.cluster import KMeans
+
+sse = []
+k_range = range(1, min(11, len(pivot_normalized)))  # hindari error jika data sedikit
+for k in k_range:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(pivot_normalized)
+    sse.append(kmeans.inertia_)
+
+# Tampilkan grafik Elbow
+fig2, ax2 = plt.subplots()
+ax2.plot(k_range, sse, marker='o')
+ax2.set_xlabel("Jumlah Cluster (k)")
+ax2.set_ylabel("SSE")
+ax2.set_title("Metode Elbow untuk Menentukan Jumlah Cluster Optimal")
+ax2.grid(True)
+st.pyplot(fig2)
+
+# Tambahkan hasil klasterisasi setelah Elbow
+st.subheader("Hasil Klasterisasi K-Means (misal k=3)")
+kmeans_model = KMeans(n_clusters=3, random_state=42)
+kmeans_labels = kmeans_model.fit_predict(pivot_normalized)
+
+# Gabungkan hasil klaster ke data asli
+clustered_df = pivot_penumpang.copy()
+clustered_df['Cluster'] = kmeans_labels
+st.dataframe(clustered_df)
+
+
